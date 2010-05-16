@@ -174,17 +174,6 @@ class PhpidsIntrusionsController extends PhpidsAppController {
     }
 
     /*
-    * index()
-    * Returns a RSS Feed with the intrusions
-    */
-    function wvadmin_index() {
-        if($this->RequestHandler->isRss()) {
-            $intrusions=$this->PhpidsIntrusion->find('all',array('limit'=>50));        
-            $this->set('alerts',$intrusions);   
-        }    
-    }
-
-    /*
     * getIP()
     * Extracts IP from $_SERVER variable
     */
