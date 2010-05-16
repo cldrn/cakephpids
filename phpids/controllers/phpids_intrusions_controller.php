@@ -29,11 +29,12 @@ class PhpidsIntrusionsController extends PhpidsAppController {
         );
 
         /* Check if IP exists in cache */
-        Cache::set(array('duration'=>'+30 days'));
+        $banDuration=Configure::read('Phpids.ban_duration');
+        Cache::set(array('duration'=>"+$banDuration days"));
         $ipBanned=Cache::read('banned_ip_'.$this->getIP());
         
         /* This IP is banned! Exiting! */
-        if($ipBanned==1) 
+        if($ipBanned==1 && Configure::read('Phpids.production_mode')) 
             exit();
     }
 
@@ -168,8 +169,9 @@ class PhpidsIntrusionsController extends PhpidsAppController {
     */
     function idskill() {
         $ip=$this->getIP();
-        $cacheFilename='banned_ip_'.$ip; 
-        Cache::set(array('duration'=>'+30 days'));
+        $cacheFilename='banned_ip_'.$ip;
+        $banDuration=Configure::read('Phpids.ban_duration'); 
+        Cache::set(array('duration'=>"+$banDuration days"));
         $cacheValue=Cache::write($cacheFilename,1);      
     }
 
