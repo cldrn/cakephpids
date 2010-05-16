@@ -3,7 +3,7 @@
 * PHPIDS Configuration 
 * -DONT FORGET TO CHANGE THE BASE PATH!
 */
-    $config['Phpids']['base_path']="/var/www/websec/websec.ca/app/plugins/phpids/vendors/phpids/";
+    $config['Phpids']['base_path']="<your absolute path>/app/plugins/phpids/vendors/phpids/";
     $config['Phpids']['notification_email']="calderon@websec.ca";
     $config['Phpids']['production_mode']=true;
 

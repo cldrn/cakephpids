@@ -11,7 +11,7 @@
     ; basic settings - customize to make the PHPIDS work at all
     filter_type     = xml
     
-    base_path       = /var/www/websec/websec.ca/app/plugins/phpids/vendors/phpids/
+    base_path       = <your absolute path>/app/plugins/phpids/vendors/phpids/
     use_base_path   = true
     
     filter_path     = IDS/default_filter.xml
