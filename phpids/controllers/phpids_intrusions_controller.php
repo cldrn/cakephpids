@@ -47,26 +47,26 @@ class PhpidsIntrusionsController extends PhpidsAppController {
         
         App::import('Vendor', 'Phpids.init', array('file' => 'phpids/IDS/Init.php'));
             
-        //add request url and user agent
+        /* add request url and user agent */
         $_REQUEST['IDS_request_uri'] = $_SERVER['REQUEST_URI'];
         if (isset($_SERVER['HTTP_USER_AGENT'])) {
             $_REQUEST['IDS_user_agent'] = $_SERVER['HTTP_USER_AGENT'];
         }       
 
-        //set include path for IDS  and store old one - PHPIDS needs this!
+        /* set include path for IDS  and store old one - PHPIDS needs this!*/
         $path = get_include_path();
         $phpids_basepath=Configure::read("Phpids.base_path");
         set_include_path($phpids_basepath); 
         
-        //initialize the PHPIDS and scan the REQUEST array
+        /* initialize the PHPIDS and scan the REQUEST array */
         $this->init = IDS_Init::init($phpids_basepath.'IDS/Config/Config.ini.php');
         $ids = new IDS_Monitor($_REQUEST,$this->init);
         $result = $ids->run();
 
-        // Re-set old include path
+        /* Re-set old include path */
         set_include_path($path);
 
-        //React to the attack according to result
+        /* React to the attack according to result */
         if (!$result->isEmpty()) {
             $this->react($result);
         }
@@ -80,14 +80,14 @@ class PhpidsIntrusionsController extends PhpidsAppController {
         
         $ip=$this->getIP();
         
-        //check and update attackers impact history
+        /* check and update attackers impact history */
         Cache::set(array('duration'=>'+30 days'));
         $impact=Cache::read('phpids_impact_'.$ip);
         $newImpact = $impact + $result->getImpact();
         Cache::set(array('duration'=>'+30 days'));
         Cache::write('phpids_impact_'.$ip,$newImpact);
         
-        //react to attack
+        /* react to attack */
         if ($newImpact >= $this->threshold['kill']) {
             $this->idslog($result, 3, $newImpact);
             $this->idsmail($result, $newImpact);
@@ -137,6 +137,7 @@ class PhpidsIntrusionsController extends PhpidsAppController {
             $this->PhpidsIntrusion->save($data);
         }
     }
+
     /*
     * idsmail($result, $impact)
     * Emails the intrusion alert to admin
@@ -151,7 +152,7 @@ class PhpidsIntrusionsController extends PhpidsAppController {
         
         $alert['ip']=$this->getIP();
         foreach ($result as $event) {        
-            //attack information
+            /*attack information*/
             $alert['tags']=implode(" ", $event->getTags());
             $alert['name']=$event->getName();
             $alert['impact']=$impact;
