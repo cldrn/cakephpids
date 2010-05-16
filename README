@@ -1,0 +1,18 @@
+PHPIDS plugin for CakePHP 1.3
+------------------------------
+
+INSTALLATION
+------------------------------
+1. Copy phpids plugin folder into your Cakephp plugins folder (app/plugins/)
+2. Configure your PHPIDS settings (phpids/config/phpids.php)
+3. Set base path in PHPIDS configuration file (phpids/vendors/phpids/IDS/config/Config.ini.php)
+4. Add 
+
+$this->requestAction("/phpids/phpids_intrusions/detect");
+
+to the actions you wish the IDS to monitor
+
+
+
+PHPIDS DOCUMENTATION
+------------------------------
