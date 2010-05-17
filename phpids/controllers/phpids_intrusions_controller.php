@@ -18,7 +18,15 @@ class PhpidsIntrusionsController extends PhpidsAppController {
     function beforeFilter() {
 
         parent::beforeFilter(); /* You may not need this. */
-        Configure::load('phpids.phpids');
+
+        /* Set plugin conf path according to version */
+        $cakeVersion=Configure::version();
+        if(strstr($cakeVersion,"1.2")) 
+            $plugin_path='phpids';
+        else if (strstr($cakeVersion,'1.3')) 
+            $plugin_path='phpids.phpids';
+
+        Configure::load($plugin_path);
 
         /* Get reaction threshold from Config */
         $this->threshold= array(

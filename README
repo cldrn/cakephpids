@@ -17,14 +17,7 @@ INSTALLATION in CakePHP 1.2
 -----------------------------
 1. Follow steps described above.
 1. Move the configuration file (phpids/config/phpids.php) to the main configuration folder (app/config)
-2. In phpids_intrusions_controller.php (phpids/controllers/phpids_intrusions_controller.php) replace 
 
-  Configure::load('phpids.phpids');
-
-
-with
-
- Configure::load('phpids');
 
 PHPIDS DOCUMENTATION
 ------------------------------
