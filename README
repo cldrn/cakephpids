@@ -21,7 +21,7 @@ to the actions you wish the IDS to monitor
 INSTALLATION in CakePHP 1.2
 -----------------------------
 1. Follow steps described above.
-2. Move the configuration file (phpids/config/phpids.php) to the main configuration folder (app/config)
+2. Move the configuration file (app/plugins/phpids/config/phpids.php) to the main configuration folder (app/config)
 
 
 PHPIDS DOCUMENTATION
