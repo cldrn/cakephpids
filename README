@@ -12,7 +12,7 @@ INSTALLATION
 2. Set up the database table where the intrusion alerts will be stored (Check phpids_intrusions.sql)
 3. Configure your PHPIDS settings (phpids/config/phpids.php)
 4. Set the base path in PHPIDS configuration file (phpids/vendors/phpids/IDS/Config/Config.ini.php)
-5. To improve performance, invoke PHPIDS where we are dealing with user input. Add 
+5. To improve performance, invoke PHPIDS when we are dealing with user input. Add 
 
 $this->requestAction("/phpids/phpids_intrusions/detect");
 
