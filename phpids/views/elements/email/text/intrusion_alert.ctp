@@ -3,7 +3,7 @@ The following attack has been detected by PHPIDS
 
 IP: <?php e($attack['ip']); ?>
 
-Date: <?php e(date("F M Y", strtotime('now'))); ?>
+Date: <?php e(date("F d Y", strtotime('now'))); ?>
 
 Impact: <?php e($attack['impact']); ?>
 
