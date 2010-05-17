@@ -13,9 +13,24 @@ $this->requestAction("/phpids/phpids_intrusions/detect");
 
 to the actions you wish the IDS to monitor
 
+INSTALLATION in CakePHP 1.2
+-----------------------------
+1. Follow steps described above.
+1. Move the configuration file (phpids/config/phpids.php) to the main configuration folder (app/config)
+2. In phpids_intrusions.php replace 
+
+  Configure::load('phpids.phpids');
+
+
+with
+
+ Configure::load('phpids');
+
 PHPIDS DOCUMENTATION
 ------------------------------
 Visit: PHPIDS [http://www.phpids.org]
+
+
 
 SUGGESTIONS
 ------------------------------
