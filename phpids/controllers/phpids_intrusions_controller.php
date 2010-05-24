@@ -100,19 +100,13 @@ class PhpidsIntrusionsController extends PhpidsAppController {
             $this->idslog($result, 3, $newImpact);
             $this->idsmail($result, $newImpact);
             $this->idskill();
-            return true;
         } else if ($newImpact >= $this->threshold['mail']) {
             $this->idslog($result, 2, $newImpact);
             $this->idsmail($result, $newImpact);
-            return true;
         } else if ($newImpact >= $this->threshold['warn']) {
             $this->idslog($result, 1, $newImpact);
-            return true;
         } else if ($newImpact >= $this->threshold['log']) {
             $this->idslog($result, 0, $newImpact);
-            return true;
-        } else {
-            return true;
         }
     }
 
@@ -143,6 +137,8 @@ class PhpidsIntrusionsController extends PhpidsAppController {
                 )
             );
             $this->PhpidsIntrusion->save($data);
+            $alert_text="[$ip]  {$data['PhpidsIntrusion']['page']}  {$data['PhpidsIntrusion']['value']}";
+            $this->log($alert_text,'PHPIDS_LOG');
         }
     }
 
