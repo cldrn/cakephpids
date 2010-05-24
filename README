@@ -10,19 +10,12 @@ INSTALLATION IN CAKEPHP 1.3
 ------------------------------
 1. Copy the phpids plugin folder into your Cakephp plugins folder (app/plugins/)
 2. Set up the database table where the intrusion alerts will be stored (Check phpids_intrusions.sql)
-3. Configure your PHPIDS settings (phpids/config/phpids.php)
-4. Set the base path in PHPIDS configuration file (phpids/vendors/phpids/IDS/Config/Config.ini.php)
-5. To improve performance, we only invoke PHPIDS when we are dealing with user input. Add 
+3. Configure your PHPIDS settings (phpids/config/Config.ini.php)
+4. Add the following line to the actions you wish the IDS to monitor:
 
 $this->requestAction("/phpids/phpids_intrusions/detect");
 
 to the actions you wish the IDS to monitor
-
-
-INSTALLATION in CAKEPHP 1.2
------------------------------
-1. Follow steps described above.
-2. Move the configuration file (app/plugins/phpids/config/phpids.php) to the main configuration folder (app/config)
 
 
 PHPIDS DOCUMENTATION
