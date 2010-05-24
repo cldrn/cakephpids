@@ -5,6 +5,16 @@
 ; General configuration settings
 
 ; !!!DO NOT PLACE THIS FILE INSIDE THE WEB-ROOT IF DATABASE CONNECTION DATA WAS ADDED!!!
+[CakephpIDS]
+    production_mode = false
+    notification_email = your@email.com
+    ban_duration = 30
+
+    ;Reaction threshold
+    reaction_threshold_log=3
+    reaction_threshold_warn=15
+    reaction_threshold_mail=50
+    reaction_threshold_kill=150
 
 [General]
 

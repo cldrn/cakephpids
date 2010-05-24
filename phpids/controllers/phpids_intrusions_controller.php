@@ -1,8 +1,9 @@
 <?php 
 /*
-* Attacks/Intrusions
-*
-* PHPIDS (http://www.phpids.org)
+* PhpidsIntrusionsController
+* 
+* CakePHP plugin implementation of PHPIDS
+* PHPIDS DOCUMENTATION: http://www.phpids.org/
 * @author: Paulino Calderon <paulino@calderonpale.com>
 */
 class PhpidsIntrusionsController extends PhpidsAppController {
@@ -10,40 +11,26 @@ class PhpidsIntrusionsController extends PhpidsAppController {
     var $name='PhpidsIntrusions';
     var $components=array('RequestHandler','Email');    
     var $threshold; 
-   
+    var $configuration;
+ 
     /*
     * beforeFilter()
     * Loads PHPIDS configuration and checks if IP is banned
     */
     function beforeFilter() {
+        parent::beforeFilter(); 
 
-        parent::beforeFilter(); /* You may not need this. */
-
-        /* Set plugin conf path according to version */
-        $cakeVersion=Configure::version();
-        if(strstr($cakeVersion,"1.2")) 
-            $plugin_path='phpids';
-        else if (strstr($cakeVersion,'1.3')) 
-            $plugin_path='phpids.phpids';
-
-        Configure::load($plugin_path);
-
+        $configuration=parse_ini_file("app/plugins/phpids/config/Config.ini.php", true);
         /* Get reaction threshold from Config */
         $this->threshold= array(
-            'log'      => Configure::read('Phpids.reaction_threshold_log'),
-            'warn'     => Configure::read('Phpids.reaction_threshold_warn'),
-            'mail'     => Configure::read('Phpids.reaction_threshold_mail'),
-            'kill'     => Configure::read('Phpids.reaction_threshold_kill')   
+            'log'=>$this->configuration['CakephpIDS']['reaction_threshold_log'],
+            'warn'=>$this->configuration['CakephpIDS']['reaction_threshold_warn'],
+            'mail'=>$this->configuration['CakephpIDS']['reaction_threshold_mail'],
+            'kill'=>$this->configuration['CakephpIDS']['reaction_threshold_kill']
         );
 
-        /* Check if IP exists in cache */
-        $banDuration=Configure::read('Phpids.ban_duration');
-        Cache::set(array('duration'=>"+$banDuration days"));
-        $ipBanned=Cache::read('banned_ip_'.$this->getIP());
-        
-        /* This IP is banned! Exiting! */
-        if($ipBanned==1 && Configure::read('Phpids.production_mode')) 
-            exit();
+        /* If IP is banned, exit! */
+        $this->checkIP();
     }
 
     /**
@@ -52,9 +39,7 @@ class PhpidsIntrusionsController extends PhpidsAppController {
      * detection routines on the request array.
      */
     function detect() {
-        
         App::import('Vendor', 'Phpids.init', array('file' => 'phpids/IDS/Init.php'));
-            
         /* add request url and user agent */
         $_REQUEST['IDS_request_uri'] = $_SERVER['REQUEST_URI'];
         if (isset($_SERVER['HTTP_USER_AGENT'])) {
@@ -63,11 +48,11 @@ class PhpidsIntrusionsController extends PhpidsAppController {
 
         /* set include path for IDS  and store old one - PHPIDS needs this!*/
         $path = get_include_path();
-        $phpids_basepath=Configure::read("Phpids.base_path");
+        $phpids_basepath=$this->configuration['General']['base_path'];
         set_include_path($phpids_basepath); 
         
         /* initialize the PHPIDS and scan the REQUEST array */
-        $this->init = IDS_Init::init($phpids_basepath.'IDS/Config/Config.ini.php');
+        $this->init = IDS_Init::init($phpids_basepath.'../../config/Config.ini.php');
         $ids = new IDS_Monitor($_REQUEST,$this->init);
         $result = $ids->run();
 
@@ -150,8 +135,8 @@ class PhpidsIntrusionsController extends PhpidsAppController {
         
         $this->Email->template='intrusion_alert';
         $this->Email->sendAs='text';
-        $this->Email->from='phpids@websec.ca';
-        $this->Email->to=Configure::read("Phpids.notification_email");
+        $this->Email->from='phpids@yourdomain.com';
+        $this->Email->to=$this->configuration['CakephpIDS']['notification_email'];
         $this->Email->subject='PHPIDS Alert';
         
         $alert['ip']=$this->getIP();
@@ -175,7 +160,7 @@ class PhpidsIntrusionsController extends PhpidsAppController {
     function idskill() {
         $ip=$this->getIP();
         $cacheFilename='banned_ip_'.$ip;
-        $banDuration=Configure::read('Phpids.ban_duration'); 
+        $banDuration=$this->configuration['CakephpIDS']['ban_duration']; 
         Cache::set(array('duration'=>"+$banDuration days"));
         $cacheValue=Cache::write($cacheFilename,1);      
     }
@@ -192,6 +177,19 @@ class PhpidsIntrusionsController extends PhpidsAppController {
                                  '127.0.0.1');
         return $ip;
     }   
-    
+
+    /*
+    * Checks if the request comes from a banned IP and exits
+    */
+    function checkIP() {
+        /* Check if IP exists in cache */
+        $banDuration=$this->configuration['CakephpIDS']['ban_duration'];
+        Cache::set(array('duration'=>"+$banDuration days"));
+        $ipBanned=Cache::read('banned_ip_'.$this->getIP());
+
+        /* This IP is banned! Exiting! */
+        if($ipBanned==1 && $this->configuration['CakephpIDS']['production_mode'])
+            exit();
+    }    
 }
 ?>
