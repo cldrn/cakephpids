@@ -20,7 +20,7 @@ class PhpidsIntrusionsController extends PhpidsAppController {
     function beforeFilter() {
         parent::beforeFilter(); 
 
-        $configuration=parse_ini_file("app/plugins/phpids/config/Config.ini.php", true);
+        $this->configuration=parse_ini_file("app/plugins/phpids/config/Config.ini.php", true);
         /* Get reaction threshold from Config */
         $this->threshold= array(
             'log'=>$this->configuration['CakephpIDS']['reaction_threshold_log'],
