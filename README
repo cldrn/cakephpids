@@ -6,7 +6,7 @@ PHPIDS (PHP-Intrusion Detection System) is a simple to use, well structured, fas
 Official website: http://www.phpids.org/
 
 
-INSTALLATION IN CAKEPHP 1.3
+INSTALLATION
 ------------------------------
 1. Copy the phpids plugin folder into your Cakephp plugins folder (app/plugins/)
 2. Set up the database table where the intrusion alerts will be stored (Check phpids_intrusions.sql)
