@@ -4,29 +4,18 @@
 
 ; General configuration settings
 
-; !!!DO NOT PLACE THIS FILE INSIDE THE WEB-ROOT IF DATABASE CONNECTION DATA WAS ADDED!!!
-[CakephpIDS]
-    production_mode = false
-    notification_email = your@email.com
-    ban_duration = 30
-
-    ;Reaction threshold
-    reaction_threshold_log=3
-    reaction_threshold_warn=15
-    reaction_threshold_mail=50
-    reaction_threshold_kill=150
 
 [General]
 
     ; basic settings - customize to make the PHPIDS work at all
     filter_type     = xml
     
-    base_path       = <your absolute path>/app/plugins/phpids/vendors/phpids/
-    use_base_path   = true
+    base_path       = /full/path/to/IDS/ 
+    use_base_path   = false
     
-    filter_path     = IDS/default_filter.xml
-    tmp_path        = IDS/tmp
-    scan_keys       = true
+    filter_path     = default_filter.xml
+    tmp_path        = tmp
+    scan_keys       = false
     
     ; in case you want to use a different HTMLPurifier source, specify it here
     ; By default, those files are used that are being shipped with PHPIDS
@@ -44,6 +33,8 @@
     ; define which fields shouldn't be monitored (a[b]=c should be referenced via a.b)
     exceptions[]    = GET.__utmz
     exceptions[]    = GET.__utmc
+
+    ; you can use regular expressions for wildcard exceptions - example: /.*foo/i
 
     ; PHPIDS should run with PHP 5.1.2 but this is untested - set 
     ; this value to force compatibilty with minor versions
@@ -80,7 +71,7 @@
 [Caching]
 
     ; caching:      session|file|database|memcached|none
-    caching         = none 
+    caching         = file 
     expiration_time = 600
 
     ; file cache    
