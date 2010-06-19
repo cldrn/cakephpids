@@ -1,0 +1,30 @@
+PHPIDS component for CakePHP
+------------------------------
+
+PHPIDS (PHP-Intrusion Detection System) is a simple to use, well structured, fast and state-of-the-art security layer for your PHP based web application. The IDS neither strips, sanitizes nor filters any malicious input, it simply recognizes when an attacker tries to break your site and reacts in exactly the way you want it to. Based on a set of approved and heavily tested filter rules any attack is given a numerical impact rating which makes it easy to decide what kind of action should follow the hacking attempt. This could range from simple logging to sending out an emergency mail to the development team, displaying a warning message for the attacker or even ending the user’s session.
+
+Official website: http://www.phpids.org/
+
+
+INSTALLATION
+------------------------------
+1. Copy phpids_intrusion.php to your models folder (app/models)
+2. Copy cakephpids.php to your components folder (app/controllers/components)
+3. Copy phpids/ to your vendors folder (app/vendors)
+3. Set up the database table where the intrusion alerts will be stored (Check phpids_intrusions.sql)
+4. Configure the IDS settings (phpids/IDS/Config/Config.ini.php)
+5. Include the component in the corresponding controllers or in your main app_controller.php if you wish to monitor all controllers. To improve performance we need to pass a list of functions to monitor (required).
+
+var $components=array('Cakephpids'=>array(
+                            'protectedActions'=>array('login','add','register','display')));
+
+PHPIDS DOCUMENTATION
+------------------------------
+For additional documentation about PHPIDS visit [http://www.phpids.org]
+
+SUGGESTIONS
+------------------------------
+Feel free to contribute code to this plugin via Github: 
+http://github.com/cldrn/cakephpids
+
+paulino@calderonpale.com 
